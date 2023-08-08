@@ -1,7 +1,2 @@
 # Operaciones-de-conjuntos-2
-Aplicación donde se implementan operaciones de conjuntos como:
--> union
--> intersection
--> diference
--> complement
--> simetric diference
+Aplicación donde se implementan operaciones de conjuntos como: union, intersection, diference, complement y simetric diference.
