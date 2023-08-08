@@ -1,6 +1,6 @@
 -- Implementation of sets operations like UNION, INTERSECTION, COMPLEMENT, DIFERENCE and SIMETRIC DIFERENCE.
 
------ Union of sets -----
+-- ========== Union of sets ==========
 union :: Ord a => [a] -> [a] -> [a]
 union [] [] = []
 union xs [] = xs
@@ -35,7 +35,7 @@ deleteRepElem [x] = [x]
 deleteRepElem (x:y:ys) | x == y = deleteRepElem (y:ys)
                        | otherwise = x : deleteRepElem (y:ys)
 
------- Intersection of sets -----
+-- ========== Intersection of sets ==========
 intersection :: Ord a => [a] -> [a] -> [a]
 intersection xs ys = intersectionAux (mergeSort xs) (mergeSort ys)
 
@@ -46,3 +46,19 @@ intersectionAux [] _ = []
 intersectionAux (x:xs) (y:ys) | x == y = x : intersectionAux xs ys
                               | x < y = intersectionAux xs (y:ys)
                               | x > y = intersectionAux (x:xs) ys 
+
+-- ========== Diference of sets ==========
+diference :: Ord a => [a] -> [a] -> [a]
+diference xs ys = diferenceAux (mergeSort xs) (mergeSort ys)
+
+-- diference operation that work with two ordered list.
+diferenceAux :: Ord a => [a] -> [a] -> [a]
+diferenceAux [] _ = []
+diferenceAux xs [] = xs
+diferenceAux (x:xs) (y:ys) | include x (y:ys) = diferenceAux xs (y:ys)
+                           | otherwise = x : diferenceAux xs (y:ys)
+
+-- return a boolean that said if an element is included in a list.
+include :: Ord a => a -> [a] -> Bool
+include x [] = False
+include x (y:ys) = x == y || include x ys                            
