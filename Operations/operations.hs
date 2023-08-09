@@ -1,6 +1,7 @@
 -- Implementation of sets operations like UNION, INTERSECTION, COMPLEMENT, DIFERENCE and SIMETRIC DIFERENCE.
 
 -- ========== Union of sets ==========
+-- Formally is: {x | x include A or x include B}
 -- first list is A set and second list is B set.
 union :: Ord a => [a] -> [a] -> [a]
 union [] [] = []
@@ -37,6 +38,7 @@ deleteRepElem (x:y:ys) | x == y = deleteRepElem (y:ys)
                        | otherwise = x : deleteRepElem (y:ys)
 
 -- ========== Intersection of sets ==========
+-- Formally is: {x | x include A and x include B}
 -- first list is A set and second list is B set.
 intersection :: Ord a => [a] -> [a] -> [a]
 intersection xs ys = intersectionAux (mergeSort xs) (mergeSort ys)
@@ -51,6 +53,7 @@ intersectionAux (x:xs) (y:ys) | x == y = x : intersectionAux xs ys
                               | x > y = intersectionAux (x:xs) ys 
 
 -- ========== Diference of sets ==========
+-- Formally is: {x | x include A and ¬(x include B)}
 -- first list is A set and second list is B set.
 diference :: Ord a => [a] -> [a] -> [a]
 diference xs ys = diferenceAux (mergeSort xs) (mergeSort ys)
@@ -69,6 +72,7 @@ include x [] = False
 include x (y:ys) = x == y || include x ys
 
 -- ========== Complement of sets ==========
+-- Formally is: {x | x include Universal and ¬(x include A)}
 -- first list is Universal set and second list is A set.
 complement :: Ord a => [a] -> [a] -> [a]
 complement us xs = complementAux (mergeSort us) (mergeSort xs)
@@ -80,3 +84,9 @@ complementAux [] _ = []
 complementAux us [] = us
 complementAux (u:us) (x:xs) | include u (x:xs) = complementAux us (x:xs)
                             | otherwise = u : complementAux us (x:xs)
+
+-- ========== Simetric Diference of sets ==========
+-- Formally is: {x | x include (A union B) diference (A intersection B)}    
+-- first list is A set and second list is B set.
+simetricDiference :: Ord a => [a] -> [a] -> [a]
+simetricDiference xs ys = diference (union xs ys) (intersection xs ys) 
